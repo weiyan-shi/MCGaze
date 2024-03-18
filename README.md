@@ -160,13 +160,13 @@ This code is inspired by [MPEblink](https://github.com/wenzhengzeng/MPEblink), [
 ## Citation
 If MCGaze is useful or relevant to your research, please kindly recognize our contributions by citing our paper:
 ```
-@ARTICLE{10316587,
+@article{guan2023end,
+  title={End-to-End Video Gaze Estimation via Capturing Head-Face-Eye Spatial-Temporal Interaction Context},
   author={Guan, Yiran and Chen, Zhuoguang and Zeng, Wenzheng and Cao, Zhiguo and Xiao, Yang},
-  journal={IEEE Signal Processing Letters}, 
-  title={End-to-end Video Gaze Estimation via Capturing Head-face-eye Spatial-temporal Interaction Context}, 
+  journal={IEEE Signal Processing Letters},
+  volume={30},
+  pages={1687--1691},
   year={2023},
-  volume={},
-  number={},
-  pages={1-5},
-  doi={10.1109/LSP.2023.3332569}}
+  publisher={IEEE}
+}
 ```
