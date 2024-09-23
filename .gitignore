@@ -146,6 +146,8 @@ MCGaze_demo/result
 
 *.mp4
 *.jpg
+*.pt
+
 # *.json
 
 # results
