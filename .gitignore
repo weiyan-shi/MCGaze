@@ -147,3 +147,5 @@ MCGaze_demo/result
 *.mp4
 *.jpg
 # *.json
+
+results
