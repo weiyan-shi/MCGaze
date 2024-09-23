@@ -148,4 +148,5 @@ MCGaze_demo/result
 *.jpg
 # *.json
 
-results
+# results
+MCGaze_demo/crowdhuman_yolov5m.pt
