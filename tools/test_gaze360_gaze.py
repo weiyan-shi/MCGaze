@@ -17,6 +17,13 @@ from mmcv.cnn.utils.flops_counter import add_flops_counting_methods, flops_to_st
 import time
 import numpy as np
 
+
+print(torch.cuda.is_available())  # 检查是否有可用的 CUDA 设备
+print(torch.cuda.device_count())  # 输出可用 GPU 的数量
+print(torch.cuda.current_device())  # 当前使用的 GPU ID
+print(torch.cuda.get_device_name(torch.cuda.current_device()))  # 当前使用的 GPU 名称
+
+
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument('config', help='Config file')
@@ -52,6 +59,10 @@ def main(args):
         args.checkpoint,
         device=args.device,
         cfg_options=args.cfg_options) # 这个函数内部调用了build_detector
+
+    # 确保模型移动到正确的设备
+    model = model.to(args.device)
+
     model = add_flops_counting_methods(model)
     cfg = model.cfg
     anno = json.load(open(args.json))

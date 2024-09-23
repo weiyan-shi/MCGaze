@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.join(os.getcwd(), 'models'))
 import argparse
 import time
 from pathlib import Path
@@ -20,7 +23,7 @@ def detect(opt,save_img=False):
     save_txt = True
     webcam = False
     # Directories
-    save_dir = Path('/data/yrguan/gaze/code/MCgaze/MCGaze_demo/result')  # increment run
+    save_dir = Path('/app/Desktop/MCGaze/MCGaze_demo/result')  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Initialize
@@ -136,7 +139,7 @@ def detect(opt,save_img=False):
 
 def det_head(img):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='/data/yrguan/gaze/code/MCgaze/MCGaze_demo/crowdhuman_yolov5m.pt', help='model.pt path(s)')
+    parser.add_argument('--weights', nargs='+', type=str, default='/app/Desktop/MCGaze/MCGaze_demo/crowdhuman_yolov5m.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default=img, help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')

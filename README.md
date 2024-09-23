@@ -58,6 +58,9 @@ You can download the checkpoint for the model from the link inside the table.
    ```bash
    pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
    ```
+   ```bash
+  pip install torch==1.11.0+cu115 torchvision==0.12.0+cu115 torchaudio==0.11.0 -f https://download.pytorch.org/whl/torch_stable.html
+   ```
 
 4. Install MMDetection. 
 
