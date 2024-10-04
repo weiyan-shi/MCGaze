@@ -8,7 +8,7 @@ from yolo_head.detect import det_head
 ## 构建字典，遍历每张图片
 import cv2
 
-cap = cv2.VideoCapture('/app/Desktop/PGL-SUM/dataset/Parent_Child_Interaction_Therapy_PCIT_Effective_Treatment_Effective/Parent_Child_Interaction_Therapy_PCIT_Effective_Treatment_Effective.mp4')
+cap = cv2.VideoCapture('/app/Desktop/PGL-SUM/dataset/Talk to Your Baby/Talk to Your Baby.mp4')
 
 def delete_files_in_folder(folder_path):
     # 检查文件夹是否存在
