@@ -9,6 +9,8 @@ from facenet_pytorch import MTCNN
 import os
 import matplotlib.pyplot as plt
 
+BASE_DIR = '/app/Desktop/Dataset/pcit2'
+
 
 # In[2]:
 
@@ -17,11 +19,12 @@ frame_id = 0
 person_num = 0
 video_clip=None
 video_clip_set = []
-vid_len = len(os.listdir('/app/Desktop/MCGaze/MCGaze_demo/frames'))
+vid_len = len(os.listdir(os.path.join(BASE_DIR, 'frames')))
 while frame_id < vid_len:
-    frame = cv2.imread('/app/Desktop/MCGaze/MCGaze_demo/frames/%d.jpg' % frame_id)
+    frame = cv2.imread(os.path.join(BASE_DIR, 'frames', f'{frame_id}.jpg'))
     w,h,c = frame.shape
-    txt_path = '/app/Desktop/MCGaze/MCGaze_demo/result/labels/%d.txt' % frame_id
+    # txt_path = '/app/Desktop/MCGaze/MCGaze_demo/result/labels/%d.txt' % frame_id
+    txt_path = os.path.join(BASE_DIR, 'result/labels', f'{frame_id}.txt')
     try:
         f = open(txt_path, 'r')
     except FileNotFoundError:
@@ -121,7 +124,7 @@ for clip in video_clip_set:
         clip['gaze_p'+str(i)] = []
         datas = []
         for j,frame in enumerate(frame_id):
-            cur_img = cv2.imread("/app/Desktop/MCGaze/MCGaze_demo/frames/"+str(frame)+".jpg")
+            cur_img = cv2.imread(os.path.join(BASE_DIR, 'frames', f'{frame}.jpg'))
             w,h,_ = cur_img.shape
             for xy in head_bboxes[j]:
                 xy = int(xy)
@@ -146,7 +149,7 @@ for clip in video_clip_set:
 
 for vid_clip in video_clip_set:
     for i,frame_id in enumerate(vid_clip['frame_id']):  # 遍历每一帧
-        cur_img = cv2.imread("/app/Desktop/MCGaze/MCGaze_demo/frames/"+str(vid_clip['frame_id'][i])+".jpg")
+        cur_img = cv2.imread(os.path.join(BASE_DIR, 'frames', f"{vid_clip['frame_id'][i]}.jpg"))
         for j in range(vid_clip['person_num']):  # 遍历每一个人
             gaze = vid_clip['gaze_p'+str(j)][i][0]
             head_bboxes = vid_clip['p'+str(j)][i]
@@ -159,24 +162,24 @@ for vid_clip in video_clip_set:
             cv2.arrowedLine(cur_img,(head_center[1],head_center[0]),
                         (int(head_center[1]-gaze_len*gaze[0]),int(head_center[0]-gaze_len*gaze[1])),
                         (230,253,11),thickness=thick)
-        cv2.imwrite('/app/Desktop/MCGaze/MCGaze_demo/new_frames/%d.jpg' % frame_id, cur_img)
+        cv2.imwrite(os.path.join(BASE_DIR, 'new_frames', f'{frame_id}.jpg'), cur_img)
 
 
 # In[7]:
 
 
-img = cv2.imread('/app/Desktop/MCGaze/MCGaze_demo/new_frames/0.jpg')  #读取第一张图片
+img = cv2.imread(os.path.join(BASE_DIR, 'new_frames', '0.jpg'))
 fps = 25
 imgInfo = img.shape
 size = (imgInfo[1],imgInfo[0])  #获取图片宽高度信息
 print(size)
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-videoWrite = cv2.VideoWriter('/app/Desktop/MCGaze/MCGaze_demo/new_video_2.mp4',fourcc,fps,size)# 根据图片的大小，创建写入对象 （文件名，支持的编码器，25帧，视频大小（图片大小））
+videoWrite = cv2.VideoWriter(os.path.join(BASE_DIR, 'new_video_2.mp4'), fourcc, fps, size)
  
-files = os.listdir('/app/Desktop/MCGaze/MCGaze_demo/new_frames/')
+files = os.listdir(os.path.join(BASE_DIR, 'new_frames'))
 out_num = len(files)
 for i in range(0,out_num):
-    fileName = '/app/Desktop/MCGaze/MCGaze_demo/new_frames/'+str(i)+'.jpg'    #循环读取所有的图片,假设以数字顺序命名
+    fileName = os.path.join(BASE_DIR, 'new_frames', f'{i}.jpg')
     img = cv2.imread(fileName)
  
     videoWrite.write(img)# 将图片写入所创建的视频对象

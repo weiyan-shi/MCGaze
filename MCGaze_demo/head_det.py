@@ -1,52 +1,55 @@
 import sys
 import os
-
-sys.path.insert(0,'/app/Desktop/MCGaze/MCGaze_demo/yolo_head')
-sys.path.append(os.path.join(os.getcwd(), 'yolo_head'))
-
-from yolo_head.detect import det_head
-## 构建字典，遍历每张图片
 import cv2
 
-cap = cv2.VideoCapture('/app/Desktop/PGL-SUM/dataset/Talk to Your Baby/Talk to Your Baby.mp4')
+# Configuration section
+# You can modify these paths and settings as needed
+BASE_DIR = '/app/Desktop/Dataset/pcit2'
+YOLO_HEAD_PATH = '/app/Desktop/MCGaze/MCGaze_demo/yolo_head'
+VIDEO_PATH = os.path.join(BASE_DIR, 'pcit2.mp4')
+FRAMES_DIR = os.path.join(BASE_DIR, 'frames')
+NEW_FRAMES_DIR = os.path.join(BASE_DIR, 'new_frames')
+RESULT_LABELS_DIR = os.path.join(BASE_DIR, 'result', 'labels')
 
+# Add yolo_head path to system path
+sys.path.insert(0, YOLO_HEAD_PATH)
+sys.path.append(YOLO_HEAD_PATH)
+
+from yolo_head.detect import det_head
+
+# Function to delete all files in a folder
 def delete_files_in_folder(folder_path):
-    # 检查文件夹是否存在
     if not os.path.exists(folder_path):
-        print(f"文件夹 '{folder_path}' 不存在")
+        print(f"Folder '{folder_path}' does not exist")
         return
 
-    # 获取文件夹中的所有文件和子文件夹
     files = os.listdir(folder_path)
-
     for file in files:
         file_path = os.path.join(folder_path, file)
 
         if os.path.isfile(file_path):
-            # 如果是文件，删除它
             os.remove(file_path)
-            print(f"del_file: {file_path}")
+            print(f"Deleted file: {file_path}")
         elif os.path.isdir(file_path):
-            # 如果是文件夹，递归删除它
             delete_files_in_folder(file_path)
-    
-    # 删除空文件夹
 
+# Clean up directories
+delete_files_in_folder(RESULT_LABELS_DIR)
+delete_files_in_folder(FRAMES_DIR)
+delete_files_in_folder(NEW_FRAMES_DIR)
 
-delete_files_in_folder("/app/Desktop/MCGaze_demo/result/labels/")
-delete_files_in_folder("/app/Desktop/MCGaze/MCGaze_demo/frames/")
-delete_files_in_folder("/app/Desktop/MCGaze/MCGaze_demo/new_frames/")
+# Capture frames from video
+cap = cv2.VideoCapture(VIDEO_PATH)
 frame_id = 0
-while   True:
+
+while True:
     ret, frame = cap.read()
     if ret:
-        cv2.imwrite('/app/Desktop/MCGaze/MCGaze_demo/frames/%d.jpg' % frame_id, frame)
+        cv2.imwrite(os.path.join(FRAMES_DIR, f'{frame_id}.jpg'), frame)
         frame_id += 1
     else:
         break
-    
-imgset = '/app/Desktop/MCGaze/MCGaze_demo/frames/*.jpg'
-det_head(imgset)
 
-
-
+# Run head detection on the saved frames
+imgset = os.path.join(FRAMES_DIR, '*.jpg')
+det_head(imgset, os.path.join(BASE_DIR, 'result'))

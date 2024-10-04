@@ -18,12 +18,12 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
-def detect(opt,save_img=False):
+def detect(opt, savedir, save_img=False):
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     save_txt = True
     webcam = False
     # Directories
-    save_dir = Path('/app/Desktop/MCGaze/MCGaze_demo/result')  # increment run
+    save_dir = Path(savedir)  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Initialize
@@ -137,7 +137,7 @@ def detect(opt,save_img=False):
 
 
 
-def det_head(img):
+def det_head(img, savedir):
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='/app/Desktop/MCGaze/MCGaze_demo/crowdhuman_yolov5m.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default=img, help='source')  # file/folder, 0 for webcam
@@ -164,7 +164,7 @@ def det_head(img):
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
-                detect(opt)
+                detect(opt, savedir)
                 strip_optimizer(opt.weights)
         else:
-            detect(opt)
+            detect(opt, savedir)

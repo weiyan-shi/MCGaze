@@ -1,9 +1,13 @@
 import os
 import shutil
 
+
+BASE_DIR = '/app/Desktop/Dataset/pcit2'
+
+
 # 文件夹路径
-frames_folder = 'frames'       # 这里替换为你的frames文件夹路径
-newframes_folder = 'new_frames' # 这里替换为你的newframes文件夹路径
+frames_folder = os.path.join(BASE_DIR, 'frames')       # 这里替换为你的frames文件夹路径
+newframes_folder = os.path.join(BASE_DIR, 'new_frames') # 这里替换为你的newframes文件夹路径
 
 # 获取frames和newframes中的文件名
 frames_files = set(os.listdir(frames_folder))
