@@ -6,9 +6,21 @@ import re
 def natural_sort_key(filename):
     return [int(text) if text.isdigit() else text for text in re.split(r'(\d+)', filename)]
 
-# 定义图片文件夹路径
-image_folder = 'new_frames'  # 替换为实际的 newframes 文件夹路径
-output_video = 'output_video.mp4'   # 输出视频的名称
+# 定义 base 目录和 pcit 名称
+BASE_DIR = os.getenv('BASE_DIR')
+VIDEO_NAME = os.path.basename(BASE_DIR)
+
+# 定义图片文件夹路径和其他路径
+image_folder = os.path.join(BASE_DIR, 'new_frames')
+output_video = os.path.join(BASE_DIR, f'{VIDEO_NAME}-new.mp4')
+original_video = os.path.join(BASE_DIR, f'{VIDEO_NAME}.mp4')
+
+# 获取原视频的帧率
+cap = cv2.VideoCapture(original_video)
+fps = round(cap.get(cv2.CAP_PROP_FPS))
+cap.release()  # 记得释放视频文件
+
+print(f"Original video FPS: {fps}")
 
 # 获取所有图片文件名，按自然顺序排序
 images = sorted([img for img in os.listdir(image_folder) if img.endswith(".jpg") or img.endswith(".png")], key=natural_sort_key)
@@ -23,7 +35,6 @@ else:
 
     # 定义视频编码和帧率 (FPS)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # 编码器
-    fps = 24  # 你可以调整帧率
     video = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
 
     # 将每张图片写入视频

@@ -2,7 +2,7 @@ import os
 import shutil
 
 
-BASE_DIR = '/app/Desktop/Dataset/pcit2'
+BASE_DIR = os.getenv('BASE_DIR')
 
 
 # 文件夹路径

@@ -4,12 +4,28 @@ import cv2
 
 # Configuration section
 # You can modify these paths and settings as needed
-BASE_DIR = '/app/Desktop/Dataset/pcit2'
+BASE_DIR = os.getenv('BASE_DIR')
+VIDEO_NAME = os.path.basename(BASE_DIR)
+
+# 生成其他路径
 YOLO_HEAD_PATH = '/app/Desktop/MCGaze/MCGaze_demo/yolo_head'
-VIDEO_PATH = os.path.join(BASE_DIR, 'pcit2.mp4')
+VIDEO_PATH = os.path.join(BASE_DIR, f'{VIDEO_NAME}.mp4')  # 动态生成视频路径
 FRAMES_DIR = os.path.join(BASE_DIR, 'frames')
 NEW_FRAMES_DIR = os.path.join(BASE_DIR, 'new_frames')
 RESULT_LABELS_DIR = os.path.join(BASE_DIR, 'result', 'labels')
+
+# Function to create directories if they don't exist
+def create_dir_if_not_exists(dir_path):
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+        print(f"Created directory: {dir_path}")
+    else:
+        print(f"Directory already exists: {dir_path}")
+
+# Ensure the directories exist
+create_dir_if_not_exists(FRAMES_DIR)
+create_dir_if_not_exists(NEW_FRAMES_DIR)
+create_dir_if_not_exists(RESULT_LABELS_DIR)
 
 # Add yolo_head path to system path
 sys.path.insert(0, YOLO_HEAD_PATH)

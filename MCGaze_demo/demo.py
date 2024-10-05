@@ -8,9 +8,10 @@ import cv2
 from facenet_pytorch import MTCNN
 import os
 import matplotlib.pyplot as plt
+import json
 
-BASE_DIR = '/app/Desktop/Dataset/pcit2'
-
+BASE_DIR = os.getenv('BASE_DIR')
+VIDEO_NAME = os.path.basename(BASE_DIR)
 
 # In[2]:
 
@@ -113,9 +114,12 @@ def infer(datas,model,clip,i):
                 **datas)    # 返回的bbox格式是[x1,y1,x2,y2],根据return_loss函数来判断是forward_train还是forward_test.
     gaze_dim = det_gazes['gaze_score'].size(1)
     det_fusion_gaze = det_gazes['gaze_score'].view((det_gazes['gaze_score'].shape[0], 1, gaze_dim))
-    clip['gaze_p'+str(i)].append(det_fusion_gaze.cpu().numpy()) 
+    clip['gaze_p'+str(i)].append(det_fusion_gaze.cpu().numpy())
 
+# Process each video clip to extract gaze data
+gaze_data = {}
 max_len = 100
+
 for clip in video_clip_set:
     frame_id = clip['frame_id']
     person_num = clip['person_num']
@@ -143,6 +147,22 @@ for clip in video_clip_set:
                 if j==(len(frame_id)-1):
                     clip['gaze_p'+str(i)] = np.concatenate(clip['gaze_p'+str(i)],axis=0)
 
+    # Save gaze data to dictionary
+    for i, frame_id in enumerate(clip['frame_id']):
+        if frame_id not in gaze_data:
+            gaze_data[frame_id] = {}
+        for j in range(person_num):
+            gaze_data[frame_id][f'person_{j}'] = {
+                'gaze': clip['gaze_p' + str(j)][i].tolist(),
+                'head_bbox': [int(coord) for coord in clip['p' + str(j)][i]]
+            }
+
+
+with open(os.path.join(BASE_DIR, VIDEO_NAME+'-gaze.json'), 'w') as f:
+    json.dump(gaze_data, f, indent=4)
+
+print(f"Gaze data saved to {os.path.join(BASE_DIR, VIDEO_NAME+'-gaze.json')}")
+
 
 # In[6]:
 
@@ -163,26 +183,3 @@ for vid_clip in video_clip_set:
                         (int(head_center[1]-gaze_len*gaze[0]),int(head_center[0]-gaze_len*gaze[1])),
                         (230,253,11),thickness=thick)
         cv2.imwrite(os.path.join(BASE_DIR, 'new_frames', f'{frame_id}.jpg'), cur_img)
-
-
-# In[7]:
-
-
-img = cv2.imread(os.path.join(BASE_DIR, 'new_frames', '0.jpg'))
-fps = 25
-imgInfo = img.shape
-size = (imgInfo[1],imgInfo[0])  #获取图片宽高度信息
-print(size)
-fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-videoWrite = cv2.VideoWriter(os.path.join(BASE_DIR, 'new_video_2.mp4'), fourcc, fps, size)
- 
-files = os.listdir(os.path.join(BASE_DIR, 'new_frames'))
-out_num = len(files)
-for i in range(0,out_num):
-    fileName = os.path.join(BASE_DIR, 'new_frames', f'{i}.jpg')
-    img = cv2.imread(fileName)
- 
-    videoWrite.write(img)# 将图片写入所创建的视频对象
-
-videoWrite.release()
-
