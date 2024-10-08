@@ -154,6 +154,7 @@ for clip in video_clip_set:
         for j in range(person_num):
             gaze_data[frame_id][f'person_{j}'] = {
                 'gaze': clip['gaze_p' + str(j)][i].tolist(),
+                # 'gaze': clip['gaze_p'+str(j)][i][0],
                 'head_bbox': [int(coord) for coord in clip['p' + str(j)][i]]
             }
 
