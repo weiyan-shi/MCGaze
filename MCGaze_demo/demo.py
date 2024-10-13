@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import json
 
-BASE_DIR = os.getenv('BASE_DIR', '/app/Desktop/Dataset/pcit1')
+BASE_DIR = os.getenv('BASE_DIR', '/app/Desktop/Dataset/3')
 VIDEO_NAME = os.path.basename(BASE_DIR)
 
 # In[2]:
@@ -153,8 +153,8 @@ for clip in video_clip_set:
             gaze_data[frame_id] = {}
         for j in range(person_num):
             gaze_data[frame_id][f'person_{j}'] = {
-                # 'gaze': clip['gaze_p' + str(j)][i].tolist(),
                 'gaze': clip['gaze_p'+str(j)][i][0].tolist(),
+                # 'gaze': clip['gaze_p'+str(j)][i].tolist(),
                 'head_bbox': clip['p'+str(j)][i],
             }
 

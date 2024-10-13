@@ -6,11 +6,11 @@ ROOT_DIR = '/app/Desktop/Dataset'
 
 # 定义脚本执行顺序
 scripts = [
-    # '/app/Desktop/MCGaze/MCGaze_demo/head_det.py',
-    # '/app/Desktop/MCGaze/MCGaze_demo/refill.py',
-    # '/app/Desktop/MCGaze/MCGaze_demo/demo.py',
-    # '/app/Desktop/MCGaze/MCGaze_demo/make_again.py',
-    '/app/Desktop/MCGaze/MCGaze_demo/combine_sgmt.py',
+    '/app/Desktop/MCGaze/MCGaze_demo/head_det.py',
+    '/app/Desktop/MCGaze/MCGaze_demo/refill.py',
+    '/app/Desktop/MCGaze/MCGaze_demo/demo.py',
+    '/app/Desktop/MCGaze/MCGaze_demo/make_again.py',
+    # '/app/Desktop/MCGaze/MCGaze_demo/combine_sgmt.py',
 ]
 
 # 遍历 ROOT_DIR 下的一级子目录
@@ -25,7 +25,7 @@ for subdir in os.listdir(ROOT_DIR):
     files = os.listdir(BASE_DIR)
 
     # 检查子文件夹中是否存在 -new.mp4 文件
-    new_mp4_exists = any(file.endswith('-combine.mp4') for file in files)
+    new_mp4_exists = any(file.endswith('-new.mp4') for file in files)
 
     # 如果不存在 -new.mp4 文件，则运行脚本
     if not new_mp4_exists:
