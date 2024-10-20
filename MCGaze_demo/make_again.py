@@ -7,12 +7,12 @@ def natural_sort_key(filename):
     return [int(text) if text.isdigit() else text for text in re.split(r'(\d+)', filename)]
 
 # 定义 base 目录和 pcit 名称
-BASE_DIR = os.getenv('BASE_DIR')
+BASE_DIR = os.getenv('BASE_DIR', '/app/Desktop/Dataset/pcit7')
 VIDEO_NAME = os.path.basename(BASE_DIR)
 
 # 定义图片文件夹路径和其他路径
-image_folder = os.path.join(BASE_DIR, 'new_frames')
-output_video = os.path.join(BASE_DIR, f'{VIDEO_NAME}-new.mp4')
+image_folder = os.path.join(BASE_DIR, 'onlyhead-segment')
+output_video = os.path.join(BASE_DIR, f'{VIDEO_NAME}-bbox.mp4')
 original_video = os.path.join(BASE_DIR, f'{VIDEO_NAME}.mp4')
 
 # 获取原视频的帧率

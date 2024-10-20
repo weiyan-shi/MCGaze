@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import json
 
-BASE_DIR = os.getenv('BASE_DIR', '/app/Desktop/Dataset/3')
+BASE_DIR = os.getenv('BASE_DIR', '/app/Desktop/Dataset/pcit7')
 VIDEO_NAME = os.path.basename(BASE_DIR)
 
 # In[2]:
