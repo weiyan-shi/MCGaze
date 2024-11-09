@@ -62,9 +62,10 @@ while frame_id < vid_len:
             for i in range(cur_person_num):
                 video_clip['p'+str(i)]=[face_bbox[i]]
     else:
-        video_clip['frame_id'].append(frame_id)
-        for i in range(cur_person_num):
-                video_clip['p'+str(i)].append(face_bbox[i])
+        if video_clip is not None:
+            video_clip['frame_id'].append(frame_id)
+            for i in range(cur_person_num):
+                    video_clip['p'+str(i)].append(face_bbox[i])
     person_num = cur_person_num
     frame_id += 1
 

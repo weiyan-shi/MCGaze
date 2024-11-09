@@ -25,7 +25,7 @@ for subdir in os.listdir(ROOT_DIR):
     files = os.listdir(BASE_DIR)
 
     # 检查子文件夹中是否存在 -new.mp4 文件
-    new_mp4_exists = any(file.endswith('-new.mp4') for file in files)
+    new_mp4_exists = any(file.endswith('-gaze.mp4') for file in files)
 
     # 如果不存在 -new.mp4 文件，则运行脚本
     if not new_mp4_exists:
