@@ -179,7 +179,7 @@ for vid_clip in video_clip_set:
             head_center = [int(head_bboxes[1]+head_bboxes[3])//2,int(head_bboxes[0]+head_bboxes[2])//2]
             l = int(max(head_bboxes[3]-head_bboxes[1],head_bboxes[2]-head_bboxes[0])*1)
             gaze_len = l*1.0
-            thick = max(5,int(l*0.01))
+            thick = 3
             cv2.arrowedLine(cur_img,(head_center[1],head_center[0]),
                         (int(head_center[1]-gaze_len*gaze[0]),int(head_center[0]-gaze_len*gaze[1])),
                         (230,253,11),thickness=thick)

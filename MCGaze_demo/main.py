@@ -2,7 +2,7 @@ import subprocess
 import os
 
 # 定义 ROOT_DIR
-ROOT_DIR = '/app/Desktop/Dataset'
+ROOT_DIR = '/app/Desktop/Dataset_mp4'
 
 # 定义脚本执行顺序
 scripts = [
