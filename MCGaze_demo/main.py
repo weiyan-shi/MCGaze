@@ -2,7 +2,7 @@ import subprocess
 import os
 
 # 定义 ROOT_DIR
-ROOT_DIR = '/app/Desktop/Dataset_mp4'
+ROOT_DIR = '/app/Desktop/dataset-weiyan-latest-gaze-26'
 
 # 定义脚本执行顺序
 scripts = [
@@ -24,12 +24,12 @@ for subdir in os.listdir(ROOT_DIR):
     # 获取子文件夹中的所有文件
     files = os.listdir(BASE_DIR)
 
-    # 检查子文件夹中是否存在 -new.mp4 文件
+    # 检查子文件夹中是否存在 -gaze.mp4 文件
     new_mp4_exists = any(file.endswith('-gaze.mp4') for file in files)
 
-    # 如果不存在 -new.mp4 文件，则运行脚本
+    # 如果不存在 -gaze.mp4 文件，则运行脚本
     if not new_mp4_exists:
-        print(f"No -new.mp4 file found in {BASE_DIR}. Executing scripts...")
+        print(f"No -gaze.mp4 file found in {BASE_DIR}. Executing scripts...")
         os.environ['BASE_DIR'] = BASE_DIR  # 设置 BASE_DIR 环境变量
         # 挨个执行脚本
         for script in scripts:
@@ -40,4 +40,4 @@ for subdir in os.listdir(ROOT_DIR):
             else:
                 print(f"Error executing {script}. Error: {result.stderr}")
     else:
-        print(f"-new.mp4 file found in {BASE_DIR}, skipping execution.")
+        print(f"-gaze.mp4 file found in {BASE_DIR}, skipping execution.")
